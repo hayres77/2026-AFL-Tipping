@@ -466,11 +466,11 @@ body {
   <div class="header-top">
     <div>
       <div class="brand">FOOTY TIPS <span>2025</span></div>
-      <div class="brand-sub">AFL Season Competition · Rounds 4–29</div>
+      <div class="brand-sub">AFL Season Competition · Rounds 4–24</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem">
       <div class="prize-pill" id="poolPill">POOL: $0</div>
-      <div style="font-size:0.75rem;color:var(--muted)">$5/player/round · 12 players</div>
+      <div style="font-size:0.75rem;color:var(--muted)">$5/player/round · 9 players</div>
     </div>
   </div>
 
@@ -568,9 +568,9 @@ body {
   </div>
   <div class="prize-grid" id="prizeGrid"></div>
   <div class="info-block">
-    <strong>How the pool grows:</strong> $5 per player per round × 12 players × 26 rounds = <strong>$1,560 total pool</strong>.<br>
-    Prizes are paid out at season end. The structure ensures everyone who stays engaged gets <em>something</em> back — even last place gets their entry back for Round 29.<br><br>
-    <strong>Missed round policy:</strong> Players who miss tips still pay their $5 for that round (collected at start of season). They receive the competition average score for missed rounds — no zero punishment, but still a penalty vs actually tipping.
+    <strong>How the pool works:</strong> $5 per player per round × 9 players × 21 rounds = <strong>$945 total pool</strong>.<br>
+    Prizes paid at season end (Round 24). Top 5 all profit on their entry. Bottom 4 get something back — enough to keep fighting for every position right to the last round.<br><br>
+    <strong>Missed round policy:</strong> Players who miss tips are auto-scored at the competition average for that round — not zero, but still a penalty vs actually tipping.
   </div>
 </div>
 
@@ -614,8 +614,8 @@ body {
   <div class="info-block" style="margin-top:1rem">
     <strong>Tie-breaking:</strong> (1) Total bonus points &nbsp;·&nbsp; (2) Cumulative margin accuracy across the season &nbsp;·&nbsp; (3) Head-to-head record.<br>
     <strong>Tips lock:</strong> Individually at kickoff of each game — no excuses for forgetting a Thursday game.<br>
-    <strong>Season:</strong> Rounds 4–29 · 26 rounds · 9 games per round · Max ~72 pts per round.<br>
-    <strong>Entry:</strong> $5 per round, paid upfront at the start of the season. Total $130/player.
+    <strong>Season:</strong> Rounds 4–24 · 21 rounds · 9 games per round · Max ~72 pts per round.<br>
+    <strong>Entry:</strong> $5 per round, paid upfront at the start of the season. Total $105/player.
   </div>
 </div>
 
@@ -625,39 +625,37 @@ body {
 // ============================================================
 // DATA
 // ============================================================
-const PLAYERS = ['Marcus','Jess','Dan','Priya','Tom','Sam','Liz','Raj','Kev','Nat','Bec','Zac'];
+const PLAYERS = ['Bill','Hammo','Wadey','Harry','Max','Brewster','Bernie','Bjorn','Peter'];
 const ROUNDS_PLAYED = 3;
 const CURRENT_ROUND = 4;
-const TOTAL_ROUNDS = 26;
+const TOTAL_ROUNDS = 21;
 const ENTRY_PER_ROUND = 5;
-const NUM_PLAYERS = 12;
+const NUM_PLAYERS = 9;
 
-// Prize structure — everyone gets something
+// Prize structure — 9 players, $945 total pool
 const PRIZE_STRUCTURE = [
-  { pos: '1st', pct: 0.30, label: 'Champion' },
-  { pos: '2nd', pct: 0.20, label: 'Runner-up' },
-  { pos: '3rd', pct: 0.13, label: 'Podium' },
-  { pos: '4th', pct: 0.09, label: 'Top 4' },
-  { pos: '5th', pct: 0.07, label: 'Top 5' },
-  { pos: '6th', pct: 0.05, label: 'Top half' },
-  { pos: '7th–11th', pct: 0.10, label: 'Participation (split 5 ways)', split: 5 },
-  { pos: 'Last', pct: 0.06, label: 'Wooden Spoon — money back', wooden: true },
+  { pos: '1st',  amount: 250, label: 'Champion' },
+  { pos: '2nd',  amount: 190, label: 'Runner-up' },
+  { pos: '3rd',  amount: 150, label: 'Podium' },
+  { pos: '4th',  amount: 125, label: 'Top 4' },
+  { pos: '5th',  amount: 100, label: 'Top 5' },
+  { pos: '6th',  amount: 60,  label: 'Keep fighting' },
+  { pos: '7th',  amount: 40,  label: 'Keep fighting' },
+  { pos: '8th',  amount: 20,  label: 'Keep fighting' },
+  { pos: 'Last', amount: 10,  label: 'Wooden Spoon', wooden: true },
 ];
 
-// Simulated player data
+// Player data — starts blank, fills as season progresses
 const playerData = [
-  { name:'Marcus', pts:174, tips:63, correct:48, bonus:18, streak:3, streakType:'W', missedRounds:0 },
-  { name:'Jess',   pts:162, tips:63, correct:45, bonus:14, streak:1, streakType:'W', missedRounds:0 },
-  { name:'Dan',    pts:156, tips:63, correct:43, bonus:22, streak:2, streakType:'W', missedRounds:0 },
-  { name:'Priya',  pts:141, tips:63, correct:40, bonus:17, streak:1, streakType:'L', missedRounds:1 },
-  { name:'Tom',    pts:135, tips:63, correct:39, bonus:9,  streak:2, streakType:'L', missedRounds:0 },
-  { name:'Sam',    pts:128, tips:63, correct:37, bonus:14, streak:3, streakType:'L', missedRounds:1 },
-  { name:'Liz',    pts:122, tips:63, correct:35, bonus:12, streak:1, streakType:'L', missedRounds:0 },
-  { name:'Raj',    pts:115, tips:63, correct:33, bonus:10, streak:2, streakType:'L', missedRounds:2 },
-  { name:'Kev',    pts:108, tips:63, correct:31, bonus:8,  streak:4, streakType:'L', missedRounds:0 },
-  { name:'Nat',    pts:101, tips:63, correct:29, bonus:11, streak:1, streakType:'L', missedRounds:1 },
-  { name:'Bec',    pts:94,  tips:63, correct:27, bonus:6,  streak:5, streakType:'L', missedRounds:1 },
-  { name:'Zac',    pts:81,  tips:63, correct:23, bonus:4,  streak:6, streakType:'L', missedRounds:3 },
+  { name:'Bill',     pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Hammo',    pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Wadey',    pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Harry',    pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Max',      pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Brewster', pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Bernie',   pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Bjorn',    pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
+  { name:'Peter',    pts:0, tips:0, correct:0, bonus:0, streak:0, streakType:'W', missedRounds:0 },
 ];
 
 const GAMES_R4 = [
@@ -712,7 +710,7 @@ function buildPoolBanner() {
   const banner = document.getElementById('poolBanner');
   banner.innerHTML = `
     <div class="pool-cell"><div class="pool-label">Prize Pool</div><div class="pool-val">$${poolSoFar}</div></div>
-    <div class="pool-cell"><div class="pool-label">Season Total</div><div class="pool-val">$${totalPool}</div></div>
+    <div class="pool-cell"><div class="pool-label">Season Total</div><div class="pool-val">$945</div></div>
     <div class="pool-cell"><div class="pool-label">Rounds Left</div><div class="pool-val white">${roundsLeft}</div></div>
     <div class="pool-cell"><div class="pool-label">Current Round</div><div class="pool-val white">${CURRENT_ROUND}</div></div>
     <div class="pool-cell highlight"><div class="pool-label">Avg Score</div><div class="pool-val">${avgPts}</div></div>
@@ -755,14 +753,17 @@ function buildLadder() {
 }
 
 function getPrizeTag(rank, total) {
-  if (rank === 1) return `<span class="prize-tag prize-gold">$468</span>`;
-  if (rank === 2) return `<span class="prize-tag prize-silver">$312</span>`;
-  if (rank === 3) return `<span class="prize-tag prize-bronze">$203</span>`;
-  if (rank === 4) return `<span class="prize-tag prize-small">$140</span>`;
-  if (rank === 5) return `<span class="prize-tag prize-small">$109</span>`;
-  if (rank === 6) return `<span class="prize-tag prize-small">$78</span>`;
-  if (rank === total) return `<span class="prize-tag prize-last">$94 🪵</span>`;
-  return `<span class="prize-tag prize-small">$31</span>`;
+  const isLast = rank === total;
+  if (isLast)  return `<span class="prize-tag prize-last">$10 🪵</span>`;
+  if (rank===1) return `<span class="prize-tag prize-gold">$250</span>`;
+  if (rank===2) return `<span class="prize-tag prize-silver">$190</span>`;
+  if (rank===3) return `<span class="prize-tag prize-bronze">$150</span>`;
+  if (rank===4) return `<span class="prize-tag prize-small">$125</span>`;
+  if (rank===5) return `<span class="prize-tag prize-small">$100</span>`;
+  if (rank===6) return `<span class="prize-tag prize-small">$60</span>`;
+  if (rank===7) return `<span class="prize-tag prize-small">$40</span>`;
+  if (rank===8) return `<span class="prize-tag prize-small">$20</span>`;
+  return `<span class="prize-tag prize-small">—</span>`;
 }
 
 // ============================================================
@@ -931,30 +932,28 @@ function buildPrizes() {
   const grid = document.getElementById('prizeGrid');
 
   const prizes = [
-    { pos:'1st',      pct:0.30,  cls:'p1',   label:'Champion',           player: sorted[0].name },
-    { pos:'2nd',      pct:0.20,  cls:'p2',   label:'Runner-up',          player: sorted[1].name },
-    { pos:'3rd',      pct:0.13,  cls:'p3',   label:'Podium',             player: sorted[2].name },
-    { pos:'4th',      pct:0.09,  cls:'',     label:'Top 4',              player: sorted[3].name },
-    { pos:'5th',      pct:0.07,  cls:'',     label:'Top 5',              player: sorted[4].name },
-    { pos:'6th',      pct:0.05,  cls:'',     label:'Top Half',           player: sorted[5].name },
-    { pos:'7th–11th', pct:0.10,  cls:'',     label:'$31 ea (×5)',        player: '5 players' },
-    { pos:'Last 🪵',  pct:0.06,  cls:'',     label:'Wooden Spoon',       player: sorted[sorted.length-1].name },
+    { pos:'1st',  amount:250, cls:'p1', label:'Champion',      profit:'+$145', player: sorted[0].name },
+    { pos:'2nd',  amount:190, cls:'p2', label:'Runner-up',     profit:'+$85',  player: sorted[1].name },
+    { pos:'3rd',  amount:150, cls:'p3', label:'Podium',        profit:'+$45',  player: sorted[2].name },
+    { pos:'4th',  amount:125, cls:'',   label:'Top 4',         profit:'+$20',  player: sorted[3].name },
+    { pos:'5th',  amount:100, cls:'',   label:'Top 5',         profit:'−$5',   player: sorted[4].name },
+    { pos:'6th',  amount:60,  cls:'',   label:'Keep fighting', profit:'−$45',  player: sorted[5].name },
+    { pos:'7th',  amount:40,  cls:'',   label:'Keep fighting', profit:'−$65',  player: sorted[6].name },
+    { pos:'8th',  amount:20,  cls:'',   label:'Keep fighting', profit:'−$85',  player: sorted[7].name },
+    { pos:'Last 🪵', amount:10, cls:'', label:'Wooden Spoon',  profit:'−$95',  player: sorted[8].name },
   ];
 
-  grid.innerHTML = prizes.map(p => {
-    const amount = Math.round(totalPool * p.pct);
-    return `<div class="prize-card ${p.cls}">
+  grid.innerHTML = prizes.map(p => `
+    <div class="prize-card ${p.cls}">
       <div class="prize-pos">${p.pos}</div>
-      <div class="prize-amount">$${amount}</div>
-      <div class="prize-pct">${Math.round(p.pct*100)}% of pool</div>
-      <div class="prize-name">${p.player}</div>
+      <div class="prize-amount">$${p.amount}</div>
+      <div class="prize-pct">${p.profit} on entry</div>
+      <div class="prize-name">${p.player || '—'}</div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">${p.label}</div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 
-  const total = prizes.reduce((s,p) => s + Math.round(totalPool*p.pct), 0);
   document.getElementById('prizePoolSub').textContent =
-    `$${totalPool} total · ${NUM_PLAYERS} players × $5 × ${TOTAL_ROUNDS} rounds · Rounds 4–29`;
+    `$${totalPool} total · ${NUM_PLAYERS} players × $5 × ${TOTAL_ROUNDS} rounds · Rounds 4–24`;
 }
 
 // ============================================================
