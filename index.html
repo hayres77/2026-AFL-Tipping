@@ -22,7 +22,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
 .nav-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
 .main{max-width:960px;margin:0 auto;padding:1.5rem}
 .section{display:none}.section.active{display:block}
-.pool-banner{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;background:var(--light-border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+.pool-banner{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--light-border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
 .pool-cell{background:var(--card-bg);padding:0.875rem;text-align:center}
 .pool-cell.hl{background:rgba(240,180,41,0.12)}
 .pool-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'Barlow Condensed',sans-serif}
@@ -122,7 +122,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
   .ladder-table th:nth-child(7),.ladder-table td:nth-child(7),
   .ladder-table th:nth-child(9),.ladder-table td:nth-child(9){display:none}
   .mwrap{margin-left:0;width:100%;margin-top:0.5rem}
-  .pool-banner{grid-template-columns:1fr 1fr}
+  .pool-banner{grid-template-columns:repeat(4,1fr)}
   .nav-btn{padding:0.75rem 0.75rem;font-size:0.72rem;letter-spacing:0.5px}
   .pool-cell{padding:0.65rem 0.5rem}
   .pool-label{font-size:0.6rem}
@@ -138,7 +138,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
 }
 @media(max-width:400px){
   .nav-btn{padding:0.65rem 0.6rem;font-size:0.68rem}
-  .pool-banner{grid-template-columns:1fr 1fr}
+  .pool-banner{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -171,10 +171,12 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
 <!-- LADDER -->
 <div id="ladder" class="section active">
   <div class="pool-banner">
-    <div class="pool-cell"><div class="pool-label">Round</div><div class="pool-val w" id="curRnd">4</div></div>
-    <div class="pool-cell hl" style="grid-column:span 2"><div class="pool-label">Leader</div><div class="pool-val" id="leaderName" style="font-size:1.2rem">—</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;color:var(--gold);margin-top:2px" id="leaderPrize"></div></div>
-    <div class="pool-cell"><div class="pool-label">Rnd Winners Pot</div><div class="pool-val" id="rndWinPot">$5</div></div>
+    <div class="pool-cell hl" style="grid-column:span 4"><div class="pool-label">Leader</div><div class="pool-val" id="leaderName" style="font-size:1.3rem">—</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;color:var(--gold);margin-top:2px" id="leaderPrize"></div></div>
+    <div class="pool-cell" style="grid-column:span 4"><div class="pool-label">Current Round</div><div class="pool-val w" id="curRnd">4</div></div>
+    <div class="pool-cell"><div class="pool-label">Prize Pool</div><div class="pool-val" id="poolPill2">$945</div></div>
+    <div class="pool-cell"><div class="pool-label">Rnd Pot</div><div class="pool-val" id="rndWinPot">$5</div></div>
     <div class="pool-cell"><div class="pool-label">Next Double</div><div class="pool-val" id="nextDouble">Rnd 12</div></div>
+    <div class="pool-cell"><div class="pool-label">Entry</div><div class="pool-val" style="font-size:1rem;color:var(--muted)">$105</div></div>
   </div>
   <div class="stitle">Season Ladder</div>
   <div class="ssub" id="ladderSub">Loading...</div>
@@ -540,6 +542,8 @@ async function loadPaymentsAndUpdatePool(){
     const total=paidCount*105;
     const pill=document.getElementById('poolPill');
     if(pill)pill.textContent='POOL: $'+total;
+    const pill2=document.getElementById('poolPill2');
+    if(pill2)pill2.textContent='$'+total;
   }catch(e){}
 }
 
@@ -612,8 +616,8 @@ async function loadLadder(){
         const rndCash=rndCashByPlayer[s.player_name]||0;
         const brownlowCash=brownlowWinners[s.player_name]||0;
         const finalsCash=finalsScores[s.player_name]||0;
-        // Total earned = season position prize + round wins actually collected + brownlow if won + finals if won
-        const totalEarned=prize+rndCash+(brownlowCash||0)+(finalsCash||0);
+        // Potential = season position prize (current rank) + round wins collected + brownlow if won + finals if won
+        const potentialEarned=prize+rndCash+(brownlowCash||0)+(finalsCash||0);
 
         const prounds=roundScoresData.filter(r=>r.player_name===s.player_name).sort((a,b)=>a.round-b.round);
         const latestRnd=prounds.length?prounds[prounds.length-1]:null;
@@ -688,8 +692,8 @@ async function loadLadder(){
               <span class="big-pts">${s.total_pts||0}</span>
             </td>
             <td style="text-align:right">
-              <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;color:var(--gold)">$${totalEarned}</div>
-              <div style="font-size:0.65rem;color:var(--muted)">earned</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;color:var(--gold)">$${potentialEarned}</div>
+              <div style="font-size:0.65rem;color:var(--muted)">potential</div>
             </td>
             <td style="color:var(--muted);font-size:1rem;text-align:right;padding-left:0">›</td>
           </tr>
@@ -719,8 +723,8 @@ async function loadLadder(){
                   <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--grass-light)">${finalsCash>0?'$'+finalsCash:'—'}</div>
                 </div>
                 <div style="background:rgba(240,180,41,0.08);border:1px solid rgba(240,180,41,0.2);border-radius:6px;padding:6px 10px">
-                  <div style="color:var(--muted);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Total earned</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold)">$${totalEarned}</div>
+                  <div style="color:var(--muted);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Potential total</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold)">$${potentialEarned}</div>
                 </div>
               </div>`:'<div style="font-size:0.85rem;color:var(--muted)">No rounds scored yet.</div>'}
             </td>
