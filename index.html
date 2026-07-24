@@ -237,6 +237,10 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
       <option value="4">Round 4</option><option value="5">Round 5</option><option value="6">Round 6</option>
       <option value="7">Round 7</option><option value="8">Round 8</option><option value="9">Round 9</option>
       <option value="10">Round 10</option><option value="11">Round 11</option><option value="12">Round 12</option>
+      <option value="13">Round 13</option><option value="14">Round 14</option><option value="15">Round 15</option>
+      <option value="16">Round 16</option><option value="17">Round 17</option><option value="18">Round 18</option>
+      <option value="19">Round 19</option><option value="20">Round 20</option><option value="21">Round 21</option>
+      <option value="22">Round 22</option><option value="23">Round 23</option><option value="24">Round 24</option>
     </select>
   </div>
   <div id="allTipsContent"><div class="loading"><span class="spin"></span>Loading...</div></div>
@@ -631,18 +635,23 @@ async function loadLadder(){
       let roundScoresData=[];
       try{roundScoresData=await sb('round_scores?order=round.asc');}catch(e){}
 
-      // For per-game breakdown we need tips + games per round — fetch all at once
-      let allGamesData=[],allTipsData=[];
-      try{
-        allGamesData=await sb('games?winner=not.is.null&order=round.asc,kickoff.asc');
-        if(allGamesData.length){
-          const gids=allGamesData.map(g=>`"${g.id}"`).join(',');
-          allTipsData=await sb(`tips?game_id=in.(${gids})`);
-        }
-      }catch(e){}
-
       // Determine the latest round that has any locked game (first kickoff passed)
       const latestScoredRound=roundScoresData.length?Math.max(...roundScoresData.map(r=>r.round)):0;
+
+      // For per-game breakdown we only ever display the latest scored round —
+      // scope the fetch to that round only (not the whole season) to avoid
+      // Supabase's 1000-row default response cap silently truncating tips
+      // as the season grows (season-wide tips already exceeds 1000 rows).
+      let allGamesData=[],allTipsData=[];
+      try{
+        if(latestScoredRound>0){
+          allGamesData=await sb(`games?round=eq.${latestScoredRound}&winner=not.is.null&order=kickoff.asc`);
+          if(allGamesData.length){
+            const gids=allGamesData.map(g=>`"${g.id}"`).join(',');
+            allTipsData=await sb(`tips?game_id=in.(${gids})`);
+          }
+        }
+      }catch(e){}
 
       // Calculate previous round rankings by subtracting current round pts from season totals
       // This gives us last round's effective ranking to compare movement
