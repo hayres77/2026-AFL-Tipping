@@ -203,8 +203,8 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Tipping as</label>
     <select class="sel" id="tipperSel" onchange="onTipperChange()">
       <option value="">— select name —</option>
-      <option value="Bill">Bill</option><option value="Hammo">Hammo</option><option value="Wadey">Wadey</option><option value="Harry">Harry</option>
-      <option value="Kiss of Death">Max</option><option value="Brewster">Brewster</option><option value="Bernie">Bernie</option><option value="Bjorn">Bjorn</option><option value="Peter">Peter</option>
+      <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
+      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Round</label>
     <select class="sel" id="tipRndSel" onchange="loadMyTips()">
@@ -237,12 +237,6 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
       <option value="4">Round 4</option><option value="5">Round 5</option><option value="6">Round 6</option>
       <option value="7">Round 7</option><option value="8">Round 8</option><option value="9">Round 9</option>
       <option value="10">Round 10</option><option value="11">Round 11</option><option value="12">Round 12</option>
-      <option value="13">Round 13</option><option value="14">Round 14</option><option value="15">Round 15</option>
-      <option value="16">Round 16</option><option value="17">Round 17</option><option value="18">Round 18</option>
-      <option value="19">Round 19</option><option value="20">Round 20</option><option value="21">Round 21</option>
-      <option value="22">Round 22</option><option value="23">Round 23</option><option value="24">Round 24</option>
-      <option value="25">Finals Wk 1</option><option value="26">Finals Wk 2</option>
-      <option value="27">Finals Wk 3</option><option value="28">Grand Final</option>
     </select>
   </div>
   <div id="allTipsContent"><div class="loading"><span class="spin"></span>Loading...</div></div>
@@ -257,8 +251,8 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Tipping as</label>
     <select class="sel" id="finalsTipperSel" onchange="loadFinalsTips()">
       <option value="">— select name —</option>
-      <option value="Bill">Bill</option><option value="Hammo">Hammo</option><option value="Wadey">Wadey</option><option value="Harry">Harry</option>
-      <option value="Kiss of Death">Max</option><option value="Brewster">Brewster</option><option value="Bernie">Bernie</option><option value="Bjorn">Bjorn</option><option value="Peter">Peter</option>
+      <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
+      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Round</label>
     <select class="sel" id="finalsRndSel" onchange="loadFinalsTips()">
@@ -288,8 +282,8 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Your name</label>
     <select class="sel" id="brownlowTipperSel">
       <option value="">— select name —</option>
-      <option value="Bill">Bill</option><option value="Hammo">Hammo</option><option value="Wadey">Wadey</option><option value="Harry">Harry</option>
-      <option value="Kiss of Death">Max</option><option value="Brewster">Brewster</option><option value="Bernie">Bernie</option><option value="Bjorn">Bjorn</option><option value="Peter">Peter</option>
+      <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
+      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Tipping</label>
     <input class="rinp" id="brownlowPlayerInput" placeholder="Player name e.g. Marcus Bontempelli" style="width:220px;font-size:0.9rem;padding:7px 10px">
@@ -495,36 +489,12 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
   </div>
 </div>
 
-
-<!-- PIN MODAL -->
-<div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:#1a2e20;border:1px solid rgba(240,180,41,0.3);border-radius:16px;padding:2rem;width:320px;max-width:90vw;text-align:center">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.25rem">Enter Your PIN</div>
-    <div style="font-size:0.83rem;color:var(--muted);margin-bottom:1.25rem" id="pinModalName"></div>
-    <input type="password" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••"
-      style="width:120px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:2rem;letter-spacing:6px;padding:10px;text-align:center;margin-bottom:0.75rem;display:block;margin-left:auto;margin-right:auto"
-      onkeydown="if(event.key==='Enter')checkPin()">
-    <div id="pinError" style="font-size:0.8rem;color:#e05a5a;min-height:1.2em;margin-bottom:0.75rem"></div>
-    <div style="display:flex;gap:0.75rem;justify-content:center">
-      <button class="btn" onclick="checkPin()">Confirm</button>
-      <button class="btn2" onclick="cancelPin()">Cancel</button>
-    </div>
-  </div>
-</div>
 </main>
 <script>
 const SUPABASE_URL='https://lreffkdmmkshquoyqixs.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxyZWZma2RtbWtzaHF1b3lxaXhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTkwMzcsImV4cCI6MjA5MDA3NTAzN30._ofRpUYIaRko21l7avWTFmkmavxM2fOWWzlHCM9HRxw';
 const ADMIN_PW='aflAdmin2025';
-const PLAYERS=['Bill','Hammo','Wadey','Harry','Kiss of Death','Brewster','Bernie','Bjorn','Peter'];
-
-const PLAYER_PINS={
-  'Bill':'5555','Hammo':'3333','Wadey':'7777','Harry':'1111',
-  'Kiss of Death':'9999','Brewster':'4444','Bernie':'8888','Bjorn':'3243','Peter':'6666'
-};
-let pinVerified='';
-
-const PLAYER_DISPLAY={'Bill':'Bill','Hammo':'Hammo','Wadey':'Wadey','Harry':'Harry','Kiss of Death':'Max','Brewster':'Brewster','Bernie':'Bernie','Bjorn':'Bjorn','Peter':'Peter'};
+const PLAYERS=['Bill','Hammo','Wadey','Harry','Max','Brewster','Bernie','Bjorn','Peter'];
 const DOUBLE_PTS_ROUNDS=[12,20];
 const FINALS_ROUNDS=[25,26,27,28];
 let curTips={};let gCache={};let adminGames=[];let fetchedGamesData=[];
@@ -605,7 +575,7 @@ async function loadPaymentsAndUpdatePool(){
 async function loadLadder(){
   try{
     const [scores,rndWinners,roundScoreRows,currentRndSetting]=await Promise.all([
-      sb('season_scores?order=total_pts.desc,correct.desc'),
+      sb('season_scores?order=total_pts.desc'),
       sb('round_winners?order=round.asc'),
       sb('round_scores?select=round&order=round.desc&limit=1'),
       sb('comp_settings?key=eq.current_round')
@@ -867,43 +837,12 @@ let lockedTipper = '';
 function onTipperChange(){
   const sel = document.getElementById('tipperSel');
   const chosen = sel.value;
-  if(!chosen){pinVerified='';curTips={};document.getElementById('tipsGames').innerHTML='';return;}
-  if(lockedTipper && lockedTipper !== chosen){
+  if(lockedTipper && lockedTipper !== chosen && chosen !== ''){
     const ok = confirm(`Switch from ${lockedTipper} to ${chosen}? Your unsaved tips for ${lockedTipper} will be cleared.`);
     if(!ok){sel.value = lockedTipper;return;}
   }
-  // If already verified for this player, just reload
-  if(pinVerified === chosen){curTips={};loadMyTips();return;}
-  // Show PIN modal
-  pinVerified='';
-  curTips={};
-  document.getElementById('pinModalName').textContent='Tipping as: ' + (PLAYER_DISPLAY[chosen]||chosen);
-  document.getElementById('pinInput').value='';
-  document.getElementById('pinError').textContent='';
-  const modal = document.getElementById('pinModal');
-  modal.style.display='flex';
-  setTimeout(()=>document.getElementById('pinInput').focus(),100);
-}
-
-function checkPin(){
-  const sel = document.getElementById('tipperSel');
-  const chosen = sel.value;
-  const entered = document.getElementById('pinInput').value.trim();
-  if(entered === PLAYER_PINS[chosen]){
-    document.getElementById('pinModal').style.display='none';
-    pinVerified = chosen;
-    loadMyTips();
-  } else {
-    document.getElementById('pinError').textContent='Incorrect PIN — try again.';
-    document.getElementById('pinInput').value='';
-    document.getElementById('pinInput').focus();
-  }
-}
-
-function cancelPin(){
-  document.getElementById('pinModal').style.display='none';
-  document.getElementById('tipperSel').value='';
-  pinVerified='';
+  curTips = {};
+  loadMyTips();
 }
 
 async function loadMyTips(){
@@ -1518,9 +1457,9 @@ async function calcSeasonScores(round,games){
         const marginDiff=tip.margin_tip?Math.abs(tip.margin_tip-(g.margin||0)):999;
         let pts=2; // correct winner = 2pts base
         upd[p].correct++;
-        if(marginDiff<=12){upd[p].bonus+=1;pts+=1;}          // close margin +1
-        if(isUpset){upd[p].bonus+=3;pts+=3;}                  // upset pick +3
-        if(tip.margin_tip&&marginDiff<=3){upd[p].bonus+=2;pts+=2;} // exact margin +2
+        if(marginDiff<=12){upd[p].bonus+=1*dbl;pts+=1;}          // close margin +1
+        if(isUpset){upd[p].bonus+=3*dbl;pts+=3;}                  // upset pick +3
+        if(tip.margin_tip&&marginDiff<=3){upd[p].bonus+=2*dbl;pts+=2;} // exact margin +2
         upd[p].pts+=pts*dbl;
       }
     });
@@ -1720,7 +1659,7 @@ async function generateSummary(){
     });
   });
 
-  let seasonData=[];try{seasonData=await sb('season_scores?order=total_pts.desc,correct.desc');}catch(e){}
+  let seasonData=[];try{seasonData=await sb('season_scores?order=total_pts.desc');}catch(e){}
   let rndWinners=[];try{rndWinners=await sb('round_winners?order=round.asc');}catch(e){}
   const roundSorted=[...PLAYERS].sort((a,b)=>roundScores[b].pts-roundScores[a].pts);
   const roundWinnerName=roundSorted[0];
@@ -1949,7 +1888,7 @@ async function loadFormGuide(){
   cont.innerHTML=`<div class="loading"><span class="spin"></span>Building form guide...</div>`;
   try{
     const [scores, roundScoresData, currentRndSetting] = await Promise.all([
-      sb('season_scores?order=total_pts.desc,correct.desc'),
+      sb('season_scores?order=total_pts.desc'),
       sb('round_scores?order=round.asc'),
       sb('comp_settings?key=eq.current_round')
     ]);
