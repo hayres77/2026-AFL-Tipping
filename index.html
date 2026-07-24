@@ -204,7 +204,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <select class="sel" id="tipperSel" onchange="onTipperChange()">
       <option value="">— select name —</option>
       <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
-      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
+      <option value="Kiss of Death">Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Round</label>
     <select class="sel" id="tipRndSel" onchange="loadMyTips()">
@@ -252,7 +252,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <select class="sel" id="finalsTipperSel" onchange="loadFinalsTips()">
       <option value="">— select name —</option>
       <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
-      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
+      <option value="Kiss of Death">Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Round</label>
     <select class="sel" id="finalsRndSel" onchange="loadFinalsTips()">
@@ -283,7 +283,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
     <select class="sel" id="brownlowTipperSel">
       <option value="">— select name —</option>
       <option>Bill</option><option>Hammo</option><option>Wadey</option><option>Harry</option>
-      <option>Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
+      <option value="Kiss of Death">Max</option><option>Brewster</option><option>Bernie</option><option>Bjorn</option><option>Peter</option>
     </select>
     <label style="font-size:0.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-left:0.5rem">Tipping</label>
     <input class="rinp" id="brownlowPlayerInput" placeholder="Player name e.g. Marcus Bontempelli" style="width:220px;font-size:0.9rem;padding:7px 10px">
@@ -494,7 +494,7 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
 const SUPABASE_URL='https://lreffkdmmkshquoyqixs.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxyZWZma2RtbWtzaHF1b3lxaXhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTkwMzcsImV4cCI6MjA5MDA3NTAzN30._ofRpUYIaRko21l7avWTFmkmavxM2fOWWzlHCM9HRxw';
 const ADMIN_PW='aflAdmin2025';
-const PLAYERS=['Bill','Hammo','Wadey','Harry','Max','Brewster','Bernie','Bjorn','Peter'];
+const PLAYERS=['Bill','Hammo','Wadey','Harry','Kiss of Death','Brewster','Bernie','Bjorn','Peter'];
 const DOUBLE_PTS_ROUNDS=[12,20];
 const FINALS_ROUNDS=[25,26,27,28];
 let curTips={};let gCache={};let adminGames=[];let fetchedGamesData=[];
@@ -1846,7 +1846,7 @@ const TIPSTER_PROFILES = {
     formShift:'This afternoon at the Cloey will tell all.',
     stewards:'Held up by circumstances beyond the analyst\'s jurisdiction.'
   },
-  'Max':      {
+  'Kiss of Death':      {
     nickname:'Max', club:'Collingwood',
     desc:'Unfortunate Collingwood supporter. Never early. Not once. The round is always in progress by the time Max arrives.',
     formSummary:'Finishing strength: query. Arrival time: not a query, a certainty. Collingwood performing inconsistently — tips follow.',
