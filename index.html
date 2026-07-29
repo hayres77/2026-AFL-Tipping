@@ -493,12 +493,35 @@ body{font-family:'Barlow',sans-serif;background:#0d1f14;color:var(--white);min-h
   </div>
 </div>
 
+<!-- PIN MODAL -->
+<div id="pinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center">
+  <div style="background:#1a2e20;border:1px solid rgba(240,180,41,0.3);border-radius:16px;padding:2rem;width:320px;max-width:90vw;text-align:center">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.25rem">Enter Your PIN</div>
+    <div style="font-size:0.83rem;color:var(--muted);margin-bottom:1.25rem" id="pinModalName"></div>
+    <input type="password" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••"
+      style="width:120px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);border-radius:8px;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:2rem;letter-spacing:6px;padding:10px;text-align:center;margin-bottom:0.75rem;display:block;margin-left:auto;margin-right:auto"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <div id="pinError" style="font-size:0.8rem;color:#e05a5a;min-height:1.2em;margin-bottom:0.75rem"></div>
+    <div style="display:flex;gap:0.75rem;justify-content:center">
+      <button class="btn" onclick="checkPin()">Confirm</button>
+      <button class="btn2" onclick="cancelPin()">Cancel</button>
+    </div>
+  </div>
+</div>
 </main>
 <script>
 const SUPABASE_URL='https://lreffkdmmkshquoyqixs.supabase.co';
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxyZWZma2RtbWtzaHF1b3lxaXhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0OTkwMzcsImV4cCI6MjA5MDA3NTAzN30._ofRpUYIaRko21l7avWTFmkmavxM2fOWWzlHCM9HRxw';
 const ADMIN_PW='aflAdmin2025';
 const PLAYERS=['Bill','Hammo','Wadey','Harry','Kiss of Death','Brewster','Bernie','Bjorn','Peter'];
+
+const PLAYER_PINS={
+  'Bill':'5555','Hammo':'3333','Wadey':'7777','Harry':'1111',
+  'Kiss of Death':'9999','Brewster':'4444','Bernie':'8888','Bjorn':'3243','Peter':'6666'
+};
+let pinVerified='';
+
+const PLAYER_DISPLAY={'Bill':'Bill','Hammo':'Hammo','Wadey':'Wadey','Harry':'Harry','Kiss of Death':'Max','Brewster':'Brewster','Bernie':'Bernie','Bjorn':'Bjorn','Peter':'Peter'};
 const DOUBLE_PTS_ROUNDS=[12,20];
 const FINALS_ROUNDS=[25,26,27,28];
 let curTips={};let gCache={};let adminGames=[];let fetchedGamesData=[];
@@ -845,12 +868,41 @@ let lockedTipper = '';
 function onTipperChange(){
   const sel = document.getElementById('tipperSel');
   const chosen = sel.value;
+  if(!chosen){pinVerified='';curTips={};document.getElementById('tipsGames').innerHTML='';return;}
   if(lockedTipper && lockedTipper !== chosen && chosen !== ''){
     const ok = confirm(`Switch from ${lockedTipper} to ${chosen}? Your unsaved tips for ${lockedTipper} will be cleared.`);
     if(!ok){sel.value = lockedTipper;return;}
   }
-  curTips = {};
-  loadMyTips();
+  if(pinVerified === chosen){curTips={};loadMyTips();return;}
+  pinVerified='';
+  curTips={};
+  document.getElementById('pinModalName').textContent='Tipping as: ' + (PLAYER_DISPLAY[chosen]||chosen);
+  document.getElementById('pinInput').value='';
+  document.getElementById('pinError').textContent='';
+  const modal = document.getElementById('pinModal');
+  modal.style.display='flex';
+  setTimeout(()=>document.getElementById('pinInput').focus(),100);
+}
+
+function checkPin(){
+  const sel = document.getElementById('tipperSel');
+  const chosen = sel.value;
+  const entered = document.getElementById('pinInput').value.trim();
+  if(entered === PLAYER_PINS[chosen]){
+    document.getElementById('pinModal').style.display='none';
+    pinVerified = chosen;
+    loadMyTips();
+  } else {
+    document.getElementById('pinError').textContent='Incorrect PIN — try again.';
+    document.getElementById('pinInput').value='';
+    document.getElementById('pinInput').focus();
+  }
+}
+
+function cancelPin(){
+  document.getElementById('pinModal').style.display='none';
+  document.getElementById('tipperSel').value='';
+  pinVerified='';
 }
 
 async function loadMyTips(){
